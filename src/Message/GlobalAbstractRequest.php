@@ -1,11 +1,11 @@
 <?php
 
-namespace Omnipay\FirstData2\Message;
+namespace Omnipay\FirstData\Message;
 
 /**
  * First Data Abstract Request
  */
-abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
+abstract class GlobalAbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
 	private static $userAgent = 'TWDA New Castle LLC';
 	const API_VERSION = 'v11';

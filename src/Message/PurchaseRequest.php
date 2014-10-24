@@ -7,7 +7,7 @@ use Omnipay\Common\Message\AbstractRequest;
 /**
  * FirstDataConnect Authorize Request
  */
-class PurchaseRequest extends AbstractRequest
+class PurchaseRequest extends GlobalAbstractRequest
 {
     protected $liveEndpoint = 'https://www.ipg-online.com/connect/gateway/processing';
     protected $testEndpoint = 'https://test.ipg-online.com/connect/gateway/processing';

@@ -1,8 +1,8 @@
 <?php
 
-namespace Omnipay\FirstData2\Message;
+namespace Omnipay\FirstData\Message;
 
-class PurchaseRequest extends AbstractRequest
+class GlobalPurchaseRequest extends AbstractRequest
 {
 	public function getData()
 	{

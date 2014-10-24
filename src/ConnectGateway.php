@@ -8,7 +8,7 @@ class ConnectGateway extends AbstractGateway
 {
     public function getName()
     {
-        return 'First Data Connect';
+        return 'First Data - Connect';
     }
 
     public function getDefaultParameters()
