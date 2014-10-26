@@ -2,13 +2,16 @@
 
 namespace Omnipay\FirstData\Message;
 
+use Omnipay\FirstData\Check;
+use Omnipay\Common\CreditCard;
+
 /**
  * First Data Abstract Request
  */
 abstract class GlobalAbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
 	private static $userAgent = 'TWDA New Castle LLC';
-	const API_VERSION = 'v11';
+	const API_VERSION = 'v14';
 
 	protected $liveEndpoint = 'https://api.globalgatewaye4.firstdata.com/transaction/';
 	protected $testEndpoint = 'https://api.demo.globalgatewaye4.firstdata.com/transaction/';
@@ -82,7 +85,7 @@ abstract class GlobalAbstractRequest extends \Omnipay\Common\Message\AbstractReq
 		$data['gateway_id'] = $this->getGatewayID();
 		$data['password'] = $this->getPassword();
 		$data['transaction_type'] = $this->getTransactionType();
-		
+
 		return $data;
 	}
 
@@ -96,6 +99,7 @@ abstract class GlobalAbstractRequest extends \Omnipay\Common\Message\AbstractReq
 
 	public function sendData($data)
 	{
+
 		$client = $this->httpClient->post(
 			$this->getEndpoint(),
 			$this->getHeaders(),
@@ -108,16 +112,16 @@ abstract class GlobalAbstractRequest extends \Omnipay\Common\Message\AbstractReq
 
 	protected function getEndpoint()
 	{
-		return $this->getTestMode() ? $this->testEndpoint.self::API_VERSION : $this->liveEndpoint.self::API_VERSION;
+		return $this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint;
 	}
 
 	protected function createResponse($data)
 	{
-		return $this->response = new Response($this, $data);
+		return $this->response = new GlobalResponse($this, $data);
 	}
 
 	protected static $card_types = array(
-		'visa' => 'Visa', 
+		'visa' => 'Visa',
 		'mastercard' => 'Mastercard',
 		'discover' => 'Discover',
 		'amex' => 'American Express',

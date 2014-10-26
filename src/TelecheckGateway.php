@@ -16,11 +16,11 @@ use Omnipay\Common\AbstractGateway;
  * Any card number which passes the Luhn algorithm and ends in an odd number is declined,
  * for example: 4111111111111111
  */
-class GlobalGateway extends AbstractGateway
+class TelecheckGateway extends GlobalGateway
 {
     public function getName()
     {
-        return 'First Data - Global Gateway e4';
+        return 'First Data - Global Gateway e4 - Telecheck';
     }
 
     public function authorize(array $parameters = array())
@@ -30,7 +30,7 @@ class GlobalGateway extends AbstractGateway
 
     public function purchase(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\FirstData\Message\GlobalPurchaseRequest', $parameters);
+        return $this->createRequest('\Omnipay\FirstData\Message\TelecheckPurchaseRequest', $parameters);
     }
 
     public function getDefaultParameters()
