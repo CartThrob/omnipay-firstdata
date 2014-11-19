@@ -21,7 +21,7 @@ class GlobalPurchaseRequest extends GlobalAbstractRequest
 		$data['cc_number'] = $this->getCard()->getNumber();
 		$data['cardholder_name'] = $this->getCard()->getName();
 		$data['cc_expiry'] = $this->getCard()->getExpiryDate('my');
-		$data['cc_verification_str2'] = $this->getCard()->getCvv();
+		$data['cvd_code'] = $this->getCard()->getCvv();
 		//$data['cavv'] = $this->getCard()->getCvv();
 
 		$data['client_ip'] = $this->getClientIp();
