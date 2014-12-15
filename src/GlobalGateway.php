@@ -38,10 +38,11 @@ class GlobalGateway extends AbstractGateway
         return array(
             'gatewayid' => '',
             'password' => '',
+            'hmac_key' => '',
             'testMode' => false,
         );
     }
-    
+
     public function getGatewayid()
     {
         return $this->getParameter('gatewayid');
@@ -60,5 +61,15 @@ class GlobalGateway extends AbstractGateway
     public function setPassword($value)
     {
         return $this->setParameter('password', $value);
+    }
+
+    public function getHmacKey()
+    {
+        return $this->getParameter('hmac_key');
+    }
+
+    public function setHmacKey($value)
+    {
+        return $this->setParameter('hmac_key', $value);
     }
 }
