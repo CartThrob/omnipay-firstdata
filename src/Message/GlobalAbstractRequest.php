@@ -10,11 +10,8 @@ use Omnipay\Common\CreditCard;
  */
 abstract class GlobalAbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
-	private static $userAgent = 'TWDA New Castle LLC';
-	const API_VERSION = 'v14';
-
-	protected $liveEndpoint = 'https://api.globalgatewaye4.firstdata.com/transaction/';
-	protected $testEndpoint = 'https://api.demo.globalgatewaye4.firstdata.com/transaction/';
+	protected $liveEndpoint = 'https://api.globalgatewaye4.firstdata.com/transaction/v14';
+	protected $testEndpoint = 'https://api.demo.globalgatewaye4.firstdata.com/transaction/v14';
 
 	/**
 	 * @var int - api transaction type
@@ -60,6 +57,16 @@ abstract class GlobalAbstractRequest extends \Omnipay\Common\Message\AbstractReq
 		return $this->setParameter('password', $value);
 	}
 
+	public function getHmacKey()
+    {
+        return $this->getParameter('hmac_key');
+    }
+
+    public function setHmacKey($value)
+    {
+        return $this->setParameter('hmac_key', $value);
+    }
+
 	/**
 	 * Set transaction type
 	 * @param int $transactionType
@@ -89,25 +96,38 @@ abstract class GlobalAbstractRequest extends \Omnipay\Common\Message\AbstractReq
 		return $data;
 	}
 
-	protected function getHeaders(){
-		return array(
-			'User-Agent' => self::$userAgent,
-			'Content-Type: application/json; charset=UTF-8;',
-			'Accept: application/json'
-		);
+	protected function getHeaders($data)
+	{
+		$gatewayId = $this->getGatewayid();
+		$hmacKey = $this->getHmacKey();
+		$content_type = 'application/json';
+		$hashtime = gmdate('c');
+		$content_digest = sha1(json_encode($data));
+		$api_uri = '/transaction/v14';
+		$hashstr = "POST\n" . $content_type . "\n" . $content_digest . "\n" . $hashtime . "\n" . $api_uri;
+		$authstr = base64_encode(hash_hmac('sha1', $hashstr, $hmacKey, true));
+
+		$headers = array();
+		$headers['Content-Type'] = $content_type;
+		$headers['Accept'] = 'application/json';
+		$headers['Authorization'] = 'GGE4_API ' . $gatewayId . ':' . $authstr;
+		$headers['X-GGe4-Date'] =  $hashtime;
+		$headers['X-GGe4-Content-SHA1'] = $content_digest;
+
+		return $headers;
 	}
 
 	public function sendData($data)
 	{
 		$client = $this->httpClient->post(
 			$this->getEndpoint(),
-			$this->getHeaders(),
-			$data
+			$this->getHeaders($data),
+			json_encode($data)
 		);
 
 		$client->getCurlOptions()->set(CURLOPT_PORT,443);
 		$httpResponse = $client->send();
-		return $this->createResponse($httpResponse->getBody());
+		return $this->createResponse($httpResponse->json());
 	}
 
 	protected function getEndpoint()
