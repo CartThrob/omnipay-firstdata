@@ -29,6 +29,12 @@ class GlobalPurchaseRequest extends GlobalAbstractRequest
 		$data['client_email'] = $this->getCard()->getEmail();
 		$data['language'] = strtoupper($this->getCard()->getCountry());
 
+		$data['address'] = array();
+		$data['address']['address1'] = $this->getCard()->getAddress1();
+		$data['address']['city'] = $this->getCard()->getCity();
+		$data['address']['zip'] = $this->getCard()->getPostcode();
+		$data['address']['country'] = $this->getCard()->getCountry();
+
 		//$data['STARTDATE'] = $this->getCard()->getStartMonth().$this->getCard()->getStartYear();
 		//$data['FIRSTNAME'] = $this->getCard()->getFirstName();
 		//$data['LASTNAME'] = $this->getCard()->getLastName();

@@ -12,7 +12,7 @@ class GlobalResponse extends AbstractResponse
 {
 	public function isSuccessful()
 	{
-		return ($this->data['exact_resp_code'] == '00')?true:false;
+		return ($this->data['exact_resp_code'] == '00') ? true: false;
 	}
 
 	public function getTransactionReference()
