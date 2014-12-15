@@ -99,12 +99,12 @@ abstract class GlobalAbstractRequest extends \Omnipay\Common\Message\AbstractReq
 
 	public function sendData($data)
 	{
-
 		$client = $this->httpClient->post(
 			$this->getEndpoint(),
 			$this->getHeaders(),
 			$data
 		);
+
 		$client->getCurlOptions()->set(CURLOPT_PORT,443);
 		$httpResponse = $client->send();
 		return $this->createResponse($httpResponse->getBody());
